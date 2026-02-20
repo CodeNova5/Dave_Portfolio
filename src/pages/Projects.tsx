@@ -84,7 +84,7 @@ export default function Projects() {
             {filteredProjects.map((project) => (
               <Link key={project.id} to={`/projects/${project.slug}`}>
                 <Card hover className="h-full">
-                  <div className="aspect-video bg-slate-700/50 overflow-hidden">
+                  <div className="aspect-video bg-slate-700/50 overflow-hidden max-h-64">
                     {project.image_url && (
                       <img
                         src={project.image_url}
