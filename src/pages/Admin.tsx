@@ -1,14 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Save, AlertCircle, CheckCircle, Edit, X, Trash2 } from 'lucide-react';
+import { Save, AlertCircle, CheckCircle, Edit, X } from 'lucide-react';
 import Section from '../components/Section';
-import { supabase, Project, ContactSubmission } from '../lib/supabase';
+import { supabase, Project } from '../lib/supabase';
 
 export default function Admin() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [adminPassword, setAdminPassword] = useState('');
   const [showLoginForm, setShowLoginForm] = useState(true);
   const [projects, setProjects] = useState<Project[]>([]);
-  const [contactSubmissions, setContactSubmissions] = useState<ContactSubmission[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -37,7 +36,6 @@ export default function Admin() {
       setIsAuthenticated(true);
       setShowLoginForm(false);
       loadProjects();
-      loadContactSubmissions();
     }
   }, []);
 
@@ -113,35 +111,6 @@ export default function Admin() {
       setProjects(data);
     }
     setLoading(false);
-  };
-
-  const loadContactSubmissions = async () => {
-    const { data, error } = await supabase
-      .from('contact_submissions')
-      .select('*')
-      .order('created_at', { ascending: false });
-
-    if (data && !error) {
-      setContactSubmissions(data);
-    }
-  };
-
-  const handleDeleteSubmission = async (id: string) => {
-    if (!confirm('Are you sure you want to delete this message?')) return;
-
-    try {
-      const { error } = await supabase
-        .from('contact_submissions')
-        .delete()
-        .eq('id', id);
-
-      if (error) throw error;
-
-      setMessage({ type: 'success', text: 'Message deleted successfully!' });
-      loadContactSubmissions();
-    } catch (err) {
-      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to delete message' });
-    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -309,7 +278,7 @@ export default function Admin() {
           </div>
         )}
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Add Project Form */}
           <div className="bg-slate-900 p-8 rounded-lg border border-slate-700">
             <div className="flex justify-between items-center mb-6">
@@ -542,36 +511,6 @@ export default function Admin() {
               ))}
               {projects.length === 0 && (
                 <p className="text-slate-400 text-center py-8">No projects yet</p>
-              )}
-            </div>
-          </div>
-
-          {/* Contact Submissions */}
-          <div className="bg-slate-900 p-8 rounded-lg border border-slate-700">
-            <h2 className="text-2xl font-bold text-white mb-6">Contact Messages ({contactSubmissions.length})</h2>
-            <div className="space-y-4 max-h-[600px] overflow-y-auto">
-              {contactSubmissions.map(submission => (
-                <div key={submission.id} className="bg-slate-800 p-4 rounded-lg border border-slate-700 space-y-3">
-                  <div className="flex justify-between items-start">
-                    <div className="flex-1">
-                      <h3 className="font-medium text-white">{submission.name}</h3>
-                      <p className="text-sm text-blue-400">{submission.email}</p>
-                    </div>
-                    <button
-                      onClick={() => handleDeleteSubmission(submission.id)}
-                      className="px-2 py-1 bg-red-600 hover:bg-red-700 text-white text-sm rounded transition flex items-center gap-1"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                  <p className="text-sm text-slate-300 break-words">{submission.message}</p>
-                  <p className="text-xs text-slate-500">
-                    {new Date(submission.created_at).toLocaleString()}
-                  </p>
-                </div>
-              ))}
-              {contactSubmissions.length === 0 && (
-                <p className="text-slate-400 text-center py-8">No messages yet</p>
               )}
             </div>
           </div>
