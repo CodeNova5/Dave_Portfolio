@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Terminal, Github, Linkedin, Mail } from 'lucide-react';
+import { Terminal, MessageCircle, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -13,9 +13,9 @@ export default function Footer() {
   ];
 
   const socials = [
-    { icon: Github, href: 'https://github.com', label: 'GitHub' },
-    { icon: Linkedin, href: 'https://linkedin.com', label: 'LinkedIn' },
-    { icon: Mail, href: 'mailto:dave@example.com', label: 'Email' },
+    { icon: MessageCircle, href: 'https://wa.me/2349072089091', label: 'WhatsApp' },
+    { icon: Phone, href: 'tel:+2349072089091', label: 'Phone' },
+    { icon: Mail, href: 'mailto:codenova02@gmail.com', label: 'Email' },
   ];
 
   return (
