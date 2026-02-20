@@ -74,7 +74,7 @@ export default function ProjectDetail() {
           <p className="text-xl text-slate-400 max-w-3xl">
             {project.summary}
           </p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 items-center">
             {project.tech_stack.map((tech) => (
               <span
                 key={tech}
@@ -83,6 +83,16 @@ export default function ProjectDetail() {
                 {tech}
               </span>
             ))}
+            {project.project_url && (
+              <a
+                href={project.project_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-lg transition"
+              >
+                View Project →
+              </a>
+            )}
           </div>
         </div>
 

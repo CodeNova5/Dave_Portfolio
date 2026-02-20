@@ -24,6 +24,7 @@ export default function Admin() {
     results: '',
     image_url: '',
     screenshots: '',
+    project_url: '',
     featured: false,
     order_index: 0,
   });
@@ -66,6 +67,7 @@ export default function Admin() {
       results: '',
       image_url: '',
       screenshots: '',
+      project_url: '',
       featured: false,
       order_index: 0,
     });
@@ -137,6 +139,7 @@ export default function Admin() {
         results: formData.results || null,
         image_url: formData.image_url || null,
         screenshots: screenshots,
+        project_url: formData.project_url || null,
         featured: formData.featured,
         order_index: parseInt(String(formData.order_index)),
       };
@@ -160,6 +163,7 @@ export default function Admin() {
         results: '',
         image_url: '',
         screenshots: '',
+        project_url: '',
         featured: false,
         order_index: 0,
       });
@@ -389,6 +393,18 @@ export default function Admin() {
                   onChange={handleInputChange}
                   className="w-full px-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
                   placeholder="https://example.com/1.jpg, https://example.com/2.jpg"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-slate-300 mb-1">Project URL (optional)</label>
+                <input
+                  type="text"
+                  name="project_url"
+                  value={formData.project_url}
+                  onChange={handleInputChange}
+                  className="w-full px-4 py-2 bg-slate-800 border border-slate-600 rounded-lg text-white placeholder-slate-400 focus:outline-none focus:border-blue-500"
+                  placeholder="https://project-link.com or https://github.com/user/repo"
                 />
               </div>
 

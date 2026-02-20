@@ -22,6 +22,7 @@ export interface Project {
   results?: string;
   image_url?: string;
   screenshots: string[];
+  project_url?: string;
   featured: boolean;
   order_index: number;
   created_at: string;
