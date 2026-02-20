@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Save, AlertCircle, CheckCircle } from 'lucide-react';
+import { Save, AlertCircle, CheckCircle, Edit, X } from 'lucide-react';
 import Section from '../components/Section';
 import { supabase, Project } from '../lib/supabase';
 
@@ -10,6 +10,7 @@ export default function Admin() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [editingId, setEditingId] = useState<string | null>(null);
 
   // Form fields
   const [formData, setFormData] = useState({
@@ -55,6 +56,10 @@ export default function Admin() {
     setIsAuthenticated(false);
     setShowLoginForm(true);
     localStorage.removeItem('adminAuthenticated');
+    resetForm();
+  };
+
+  const resetForm = () => {
     setFormData({
       title: '',
       slug: '',
@@ -71,6 +76,28 @@ export default function Admin() {
       featured: false,
       order_index: 0,
     });
+    setEditingId(null);
+  };
+
+  const handleEditProject = (project: Project) => {
+    setEditingId(project.id);
+    setFormData({
+      title: project.title,
+      slug: project.slug,
+      category: project.category,
+      summary: project.summary,
+      problem: project.problem || '',
+      solution: project.solution || '',
+      architecture: project.architecture || '',
+      tech_stack: project.tech_stack.join(', '),
+      results: project.results || '',
+      image_url: project.image_url || '',
+      screenshots: project.screenshots.join(', '),
+      project_url: project.project_url || '',
+      featured: project.featured,
+      order_index: project.order_index,
+    });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const loadProjects = async () => {
@@ -144,32 +171,29 @@ export default function Admin() {
         order_index: parseInt(String(formData.order_index)),
       };
 
-      const { error } = await supabase
-        .from('projects')
-        .insert([projectData]);
+      if (editingId) {
+        // Update existing project
+        const { error } = await supabase
+          .from('projects')
+          .update(projectData)
+          .eq('id', editingId);
 
-      if (error) throw error;
+        if (error) throw error;
+        setMessage({ type: 'success', text: 'Project updated successfully!' });
+      } else {
+        // Insert new project
+        const { error } = await supabase
+          .from('projects')
+          .insert([projectData]);
 
-      setMessage({ type: 'success', text: 'Project added successfully!' });
-      setFormData({
-        title: '',
-        slug: '',
-        category: 'Web Applications',
-        summary: '',
-        problem: '',
-        solution: '',
-        architecture: '',
-        tech_stack: '',
-        results: '',
-        image_url: '',
-        screenshots: '',
-        project_url: '',
-        featured: false,
-        order_index: 0,
-      });
+        if (error) throw error;
+        setMessage({ type: 'success', text: 'Project added successfully!' });
+      }
+      
+      resetForm();
       loadProjects();
     } catch (err) {
-      setMessage({ type: 'error', text: err instanceof Error ? err.message : 'Failed to add project' });
+      setMessage({ type: 'error', text: err instanceof Error ? err.message : editingId ? 'Failed to update project' : 'Failed to add project' });
     } finally {
       setLoading(false);
     }
@@ -257,7 +281,19 @@ export default function Admin() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Add Project Form */}
           <div className="bg-slate-900 p-8 rounded-lg border border-slate-700">
-            <h2 className="text-2xl font-bold text-white mb-6">Add New Project</h2>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-white">{editingId ? 'Edit Project' : 'Add New Project'}</h2>
+              {editingId && (
+                <button
+                  type="button"
+                  onClick={resetForm}
+                  className="px-3 py-1 bg-slate-700 hover:bg-slate-600 text-white text-sm rounded transition flex items-center gap-1"
+                >
+                  <X className="w-4 h-4" />
+                  Cancel
+                </button>
+              )}
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-300 mb-1">Title *</label>
@@ -438,7 +474,7 @@ export default function Admin() {
                 className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-900 text-white font-medium py-3 rounded-lg transition flex items-center justify-center gap-2"
               >
                 <Save className="w-4 h-4" />
-                {loading ? 'Saving...' : 'Add Project'}
+                {loading ? 'Saving...' : editingId ? 'Update Project' : 'Add Project'}
               </button>
             </form>
           </div>
@@ -454,13 +490,23 @@ export default function Admin() {
                     <p className="text-sm text-slate-400">{project.category}</p>
                     <p className="text-xs text-slate-500 mt-1">{project.slug}</p>
                   </div>
-                  <button
-                    onClick={() => handleDeleteProject(project.id)}
-                    disabled={loading}
-                    className="ml-4 px-3 py-1 bg-red-600 hover:bg-red-700 disabled:bg-red-900 text-white text-sm rounded transition"
-                  >
-                    Delete
-                  </button>
+                  <div className="ml-4 flex gap-2">
+                    <button
+                      onClick={() => handleEditProject(project)}
+                      disabled={loading}
+                      className="px-3 py-1 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-900 text-white text-sm rounded transition flex items-center gap-1"
+                    >
+                      <Edit className="w-4 h-4" />
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteProject(project.id)}
+                      disabled={loading}
+                      className="px-3 py-1 bg-red-600 hover:bg-red-700 disabled:bg-red-900 text-white text-sm rounded transition"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               ))}
               {projects.length === 0 && (
