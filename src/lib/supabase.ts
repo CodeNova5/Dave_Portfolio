@@ -30,7 +30,9 @@ export interface Project {
 }
 
 export interface ContactSubmission {
+  id: string;
   name: string;
   email: string;
   message: string;
+  created_at: string;
 }
