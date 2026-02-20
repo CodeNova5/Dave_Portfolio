@@ -154,10 +154,10 @@ export default function Contact() {
                     Prefer email? Send me a message directly:
                   </p>
                   <a
-                    href="mailto:dave@example.com"
+                    href="mailto:codenova02@gmail.com"
                     className="text-blue-400 hover:text-blue-300 transition-colors"
                   >
-                    dave@example.com
+                    codenova02@gmail.com
                   </a>
                 </div>
               </Card>
@@ -172,7 +172,7 @@ export default function Contact() {
                     For quick questions or updates:
                   </p>
                   <a
-                    href="https://wa.me/1234567890"
+                    href="https://wa.me/09072089091"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
