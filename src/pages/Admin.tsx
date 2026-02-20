@@ -261,14 +261,23 @@ export default function Admin() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-20">
       <Section container className="py-12">
-        <div className="flex justify-between items-center mb-8">
+
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center mb-8 gap-4">
           <h1 className="text-4xl font-bold text-white">Admin Portal</h1>
-          <button
-            onClick={handleLogout}
-            className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
-          >
-            Logout
-          </button>
+          <div className="flex gap-3 items-center">
+            <a
+              href="/ContactMessages"
+              className="px-4 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition font-medium"
+            >
+              View Contact Messages
+            </a>
+            <button
+              onClick={handleLogout}
+              className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {message && (
