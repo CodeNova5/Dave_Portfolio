@@ -28,7 +28,7 @@ export default function Footer() {
               <span className="text-xl font-bold text-white">Dave</span>
             </Link>
             <p className="text-slate-400 text-sm leading-relaxed">
-              Systems builder and AI automation engineer. Creating solutions that scale businesses efficiently.
+              Systems builder and AI Engineer. Creating solutions that scale businesses efficiently.
             </p>
           </div>
 

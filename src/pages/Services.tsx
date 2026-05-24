@@ -7,8 +7,8 @@ export default function Services() {
   const services = [
     {
       icon: Zap,
-      title: 'AI Automation',
-      description: 'Transform your business operations with intelligent automation that saves time and reduces errors.',
+      title: 'AI Engineering',
+      description: 'Transform your business operations with intelligent AI engineering and automation that saves time and reduces errors.',
       features: [
         'Workflow automation with n8n',
         'CRM automation and integration',
@@ -60,7 +60,7 @@ export default function Services() {
             Services
           </h1>
           <p className="text-xl text-slate-400">
-            Comprehensive solutions to build, automate, and scale your business systems
+            Comprehensive solutions to build, engineer, and scale your business systems
           </p>
         </div>
 

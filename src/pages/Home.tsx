@@ -29,7 +29,7 @@ export default function Home() {
   const services = [
     {
       icon: Zap,
-      title: 'AI Automation',
+      title: 'AI Engineering',
       description: 'Workflow automation, CRM integration, lead routing, and intelligent business process automation.'
     },
     {
@@ -61,7 +61,7 @@ export default function Home() {
         <div className="text-center max-w-4xl mx-auto space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm font-medium mb-4">
             <Blocks className="w-4 h-4" />
-            Systems Builder & AI Automation Engineer
+            Systems Builder & AI Engineer
           </div>
 
           <h1 className="text-5xl md:text-7xl font-bold text-white leading-tight">
@@ -73,7 +73,7 @@ export default function Home() {
           </h1>
 
           <p className="text-xl md:text-2xl text-slate-400 leading-relaxed">
-            Full-stack engineer specializing in AI automation, business infrastructure, and scalable web applications.
+            Full-stack engineer specializing in AI engineering, business infrastructure, and scalable web applications.
           </p>
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
